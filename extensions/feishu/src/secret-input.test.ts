@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockedFeishuSdk = vi.hoisted(() => ({
+  buildSecretInputSchema: vi.fn(() => ({ type: "mock-schema" })),
   hasConfiguredSecretInput: vi.fn((value: unknown) => {
     if (typeof value === "string") {
       return value.trim().length > 0;

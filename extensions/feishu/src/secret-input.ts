@@ -49,9 +49,4 @@ export const normalizeResolvedSecretInputString: typeof normalizeResolvedSecretI
     ? hostNormalizeResolvedInputString
     : normalizeResolvedSecretInputStringFallback;
 
-export {
-  buildSecretInputSchema,
-  hasConfiguredSecretInput,
-  normalizeResolvedSecretInputString,
-  normalizeSecretInputString,
-};
+export { buildSecretInputSchema, hasConfiguredSecretInput };
