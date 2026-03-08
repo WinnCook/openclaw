@@ -35,7 +35,10 @@ describe("tokenizedOptionFilter", () => {
 });
 
 describe("createClackPrompter", () => {
+  const originalSuppressNotes = process.env.OPENCLAW_SUPPRESS_NOTES;
+
   afterEach(() => {
+    process.env.OPENCLAW_SUPPRESS_NOTES = originalSuppressNotes;
     vi.restoreAllMocks();
   });
 
@@ -49,5 +52,15 @@ describe("createClackPrompter", () => {
     expect(logSpy).toHaveBeenCalledTimes(2);
     expect(logSpy).toHaveBeenNthCalledWith(1, "\nManifest (JSON):");
     expect(logSpy).toHaveBeenNthCalledWith(2, manifest);
+  });
+
+  it("suppresses plain notes when OPENCLAW_SUPPRESS_NOTES is enabled", async () => {
+    process.env.OPENCLAW_SUPPRESS_NOTES = "1";
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const prompter = createClackPrompter();
+
+    await prompter.note("hidden", "Manifest (JSON)", { plain: true });
+
+    expect(logSpy).not.toHaveBeenCalled();
   });
 });
